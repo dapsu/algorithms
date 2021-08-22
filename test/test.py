@@ -1,32 +1,39 @@
+import sys
 from collections import deque
-
-v, e = map(int, input().split())  # v: 노드 개수, e: 간선 개수
-
-indegree = [0] * (v+1)  
-
-graph = [[] for i in range(v+1)]
-
-
-for _ in range(e):
-  a, b = map(int, input().split())
-  graph[a].append(b)
-  indegree[b] += 1
-
-def topology_sort():
-  result = []
-  que = deque()
-
-  for i in range(1, v+1):
-    if indegree[i] == 0:
-      que.append(i)
-
-    while que:
-      now = que.popleft()
-      result.append(now)
-
-      for i in graph[now]:
-        indegree[i] -= 1
-
-        if indegree[i] == 0:
-          que.append(i)
-
+m,n,h = map(int,input().split()) # mn크기, h상자수
+graph = []
+queue = deque([])
+ 
+for i in range(h):
+    tmp = []
+    for j in range(n):
+        tmp.append(list(map(int,sys.stdin.readline().split())))
+        for k in range(m):
+            if tmp[j][k]==1:
+                queue.append([i,j,k])
+    graph.append(tmp)
+    
+dx = [-1,1,0,0,0,0]
+dy = [0,0,1,-1,0,0]
+dz = [0,0,0,0,1,-1]
+while(queue):
+    x,y,z = queue.popleft()
+    
+    for i in range(6):
+        a = x+dx[i]
+        b = y+dy[i]
+        c = z+dz[i]
+        if 0<=a<h and 0<=b<n and 0<=c<m and graph[a][b][c]==0:
+            queue.append([a,b,c])
+            graph[a][b][c] = graph[x][y][z]+1
+            
+day = 0
+for i in graph:
+    for j in i:
+        for k in j:
+            if k==0:
+                print(-1)
+                exit(0)
+        day = max(day,max(j))
+print(day-1)
+ 

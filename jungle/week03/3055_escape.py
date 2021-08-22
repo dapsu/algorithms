@@ -27,7 +27,7 @@ for i in range(R):
             visited[i][j] = True
 
 # 고슴도치 이동가능할때마다 반복문
-while len(sony) != 0:
+while sony:
     # 물 현황 구현
     water_loop = len(water)
     for i in range(water_loop):
@@ -35,7 +35,8 @@ while len(sony) != 0:
         for j in range(4):
             nx = w_x + dx[j]
             ny = w_y + dy[j]
-            if 0 <= nx < R and 0 <= ny < C and graph[nx][ny] != 'D' and visited[nx][ny] != True:
+            # if 0 <= nx < R and 0 <= ny < C and graph[nx][ny] != 'D' and visited[nx][ny] != True:
+            if 0 <= nx < R and 0 <= ny < C:
                 if graph[nx][ny] == '.':
                     water.append((nx, ny))
                     graph[nx][ny] = '*'

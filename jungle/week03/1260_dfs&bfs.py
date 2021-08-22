@@ -25,7 +25,7 @@ N, M, V = map(int, input().split())
 # collections 모듈의 defaultdict 함수를 이용하여 딕셔너리의 value를 리스트로 default
 graph = defaultdict(list)
 
-# Key = 컴퓨터 번호, Value = Key 컴퓨터와 연결된 컴퓨터들
+# 노드들의 간선을 딕셔너리 방식으로 구현
 for _ in range(M):
     a, b = map(int, input().split())
     # defaultdict로 value가 리스트로 되어있기 때문에 append()를 통해 원소 추가
