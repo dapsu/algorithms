@@ -34,3 +34,5 @@ for i in enumerate(matrix[N]):
     if i[1] > 0:
         # print(*i)
         print(i[0], i[1])
+
+print(link)
