@@ -35,4 +35,4 @@ for i in enumerate(matrix[N]):
         # print(*i)
         print(i[0], i[1])
 
-print(link)
+# print(link)
