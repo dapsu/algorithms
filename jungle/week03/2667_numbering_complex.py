@@ -3,6 +3,7 @@ from collections import deque
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
+# bfs 함수 정의: 단지 내 집의 개수 리턴
 def bfs(x,y, graph, check):
     que = deque()
     que.append((x, y))
@@ -23,17 +24,21 @@ def bfs(x,y, graph, check):
 N = int(input())
 field = [list(map(int, input())) for _ in range(N)]
 
+# 단지 방문 여부 표시
 complex = [[0] * (N) for _ in range(N)]
+# 단지 개수
 complex_nums = 0
+# 단지 내 집의 개수 구하기 위한 리스트
 houses_list = []
 
 for i in range(N):
     for j in range(N):
         if complex[i][j] == 0 and field[i][j] != 0:
             houses = bfs(i, j, field, complex)
-            houses_list.append(houses)
-            complex_nums += 1
+            houses_list.append(houses)  # 단지 내 집 개수 리스트에 추가
+            complex_nums += 1  # 단지 개수 추가
 
+# 집의 수 오름차순으로 정렬
 houses_list.sort()
 
 print(complex_nums)
