@@ -1,25 +1,20 @@
 function solution(record) {
     let result = [];
-    let chat;
+    const mapping = new Map();
 
     for (const i of record) {
-        let tmp;
-        chat = i.split(" ");
+        const [state, uid, name] = i.split(" ");
         
-        if (chat[0] === 'Enter') {
-            tmp = chat[2] + '님이 들어왔습니다.';
-            result.push(tmp);
-        }
-        else if (chat[0] === 'Leave') {
-            tmp = chat[2] + '님이 나갔습니다.';
-            result.push(tmp);
-        }
-        else if (chat[0] === 'Change') {
+        if (state === 'Leave') {
+            result.push([uid, '님이 나갔습니다.']);
             continue;
         }
-    }
 
-    return result;
+        if (state === 'Enter') result.push([uid, '님이 들어왔습니다.']);
+
+        mapping.set(uid, name);
+    }
+    return result.map(elem => mapping.get(elem[0]) + elem[1]);
 }
 
 
