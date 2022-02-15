@@ -12,11 +12,13 @@ const createMatrix = (r, c) => {
 };
 
 // 회전 수행 함수
-const rotation = (arr, x1, y1, x2, y2) => {
-    const tmp = arr;
-
-    for (let i = 0; i < y2 - y1; i++) tmp[x1][y1+i] = arr[x1]
-
+const rotation = (arr, x1, y1, x2, y2, que) => {
+    for (let i = 0; i < y2 - y1; i++) arr[x1][y1+i] = que.shift();
+    for (let i = 0; i < x2 - x1; i++) arr[x1+i][y2] = que.shift();
+    for (let i = 0; i < y2 - y1; i++) arr[x2][y2-i] = que.shift();
+    for (let i = 0; i < x2 - x1; i++) arr[x2-i][y1] = que.shift();
+    
+    return arr;
 };
 
 function solution(rows, columns, queries) {
@@ -27,30 +29,28 @@ function solution(rows, columns, queries) {
     
     queries.forEach(([x1, y1, x2, y2]) => {
         const tmp = new Array;
-        for (let i = 0; i <= y2 - y1; i++) {
-            tmp.push(matrix[x1][y2-i]);
-            tmp.push(matrix[x2][y2-i]);
-        }
-
-        for (let i = 0; i < x2-x1; i++) {
-            if (!tmp.includes(matrix[x2-i][y2]) && !tmp.includes(matrix[x2-i][y2-y1-1])) {
-                tmp.push(matrix[x2-i][y2]);
-                tmp.push(matrix[x2-i][y2-y1-1]);
-            }
-        }
+        
+        for (let i = 0; i < y2 - y1; i++) tmp.push(matrix[x1][y1+i]);
+        for (let i = 0; i < x2 - x1; i++) tmp.push(matrix[x1+i][y2]);
+        for (let i = 0; i < y2 - y1; i++) tmp.push(matrix[x2][y2-i]);
+        for (let i = 0; i < x2 - x1; i++) tmp.push(matrix[x2-i][y1]);
         
         result.push(Math.min(...tmp));
-
+        
         // rotation
-        matrix = rotation(matrix, x1, y1, x2, y2);
+        tmp.unshift(tmp.pop());     // tmp 배열 내 원소들 시계방향으로 이동
+        matrix = rotation(matrix, x1, y1, x2, y2, tmp);     // 행렬 원소들 tmp 원소 순서대로 변경
     });
 
     return result;
 }
 
-
-
 // testCase
 console.log(solution(6, 6, [[2,2,5,4],[3,3,6,6],[5,1,6,3]]));               // [8, 10, 25]
-// console.log(solution(3, 3, [[1,1,2,2],[1,2,2,3],[2,1,3,2],[2,2,3,3]]));     // [1, 1, 5, 3]
-// console.log(solution(100, 97, [[1,1,100,97]]));     // [1]
+console.log(solution(3, 3, [[1,1,2,2],[1,2,2,3],[2,1,3,2],[2,2,3,3]]));     // [1, 1, 5, 3]
+console.log(solution(100, 97, [[1,1,100,97]]));     // [1]
+
+/** Array.prototye.unshift();
+ * shift()는 배열 맨 앞의 값 제거
+ * unshift()는 배열 맨 앞에 요소 추가
+ */
