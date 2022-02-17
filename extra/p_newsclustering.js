@@ -1,30 +1,36 @@
-// Fail
-function solution(str1, str2) {
+// 내 풀이 2차 시도: 굳굳
+
+// 코드 중복 피하기 위해 함수로 만듦
+const makeArr = (str) => {
     const abc = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O' ,'P' ,'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-    const arr1 = new Array;
-    const arr2 = new Array;
-    
-    str1 = [...str1.toUpperCase()];
-    str2 = [...str2.toUpperCase()];
+    str = [...str.toUpperCase()];
 
-    str1.filter((e, i) => {
-        if (abc.includes(str1[i]) && abc.includes(str1[i+1])) arr1.push(str1[i]+str1[i+1]);
-    });
-    str2.filter((e, i) => {
-        if (abc.includes(str2[i]) && abc.includes(str2[i+1])) arr2.push(str2[i]+str2[i+1]);
+    const arr = new Array;
+
+    str.filter((e, i) => {
+        if (abc.includes(str[i]) && abc.includes(str[i+1])) arr.push(str[i]+str[i+1]);
     });
 
-    if (arr1.length === 0 && arr2.length === 0) return 65536;
+    return arr;
+};
 
-    console.log(arr1, arr2);
+function solution(str1, str2) {
+    const arr1 = makeArr(str1);
+    const arr2 = makeArr(str2);
 
-    let tmp1 = arr1.filter(e => arr2.includes(e));
-    let tmp2;
-    if (arr1.length >= arr2.length) tmp2 = arr1.concat(arr2.filter(x => !arr1.includes(x)));
-    else tmp2 = arr2.concat(arr1.filter(x => !arr2.includes(x)));
-    console.log(tmp1, tmp2);    
+    const set = new Set([...arr1, ...arr2]);
+    let union = 0;          // 합집합
+    let intersection = 0;   // 교집합
     
-    return Math.floor(tmp1.length/tmp2.length*65536);
+    set.forEach(v => {
+        const tmp1 = arr1.filter(e => e === v).length;
+        const tmp2 = arr2.filter(e => e === v).length;
+
+        union += Math.max(tmp1, tmp2);
+        intersection += Math.min(tmp1, tmp2);
+    });
+    
+    return union === 0 ? 65536 : Math.floor(intersection/union*65536);
 }
 
 
@@ -33,3 +39,8 @@ console.log(solution('FRANCE', 'french'));              // 16384
 console.log(solution('handshake', 'shake hands'));      // 65536
 console.log(solution('aa1+aa2', 'AAAA12'));             // 43690
 console.log(solution('E=M*C^2', 'e=m*c^2'));            // 65536
+
+
+/** array.prototype.concat()
+ * Python의 extend와 같은 기능
+ */
