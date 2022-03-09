@@ -9,7 +9,6 @@ const rl = readline.createInterface({
 let input;
 
 rl.on("line", (line) => {
-    // input = line;
     input = parseInt(line);
 }).on("close", () => {
     console.log(fibonacci(input));
