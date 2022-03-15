@@ -1,49 +1,48 @@
+// https://programmers.co.kr/learn/courses/30/lessons/81302
+
 function solution(places) {
     let result = [];
     
-    const bfs = function(graph) {
+    const bfs = (strP, graph, dist) => {
         const move = [[0, -1], [0, 1], [-1, 0], [1, 0]];
-        const visited = Array(5).fill().map(() => Array(5).fill(false));
-        const dist = Array(5).fill().map(() => Array(5).fill(0));
-        let que = [];
-
-        for (let i = 0; i < 5; i++) {
-            for (let j = 0; j < 5; j++) {
-                if (graph[i][j] === 'P') que.push([i,j]);
-            }
-        }
+        let que = [strP];
 
         while (que.length > 0) {
-            let [x, y] = que.shift();
-            visited[x][y] = true;
+            let [x, y, d] = que.shift();
+
+            if (d !== 0 && graph[x][y] === "P") return false;
 
             move.forEach(([dx, dy]) => {
                 let nx = x + dx;
                 let ny = y + dy;
 
-                if (0 <= nx && nx < 5 && 0 <= ny && ny < 5 && visited[nx][ny] === false) {
-                    if (graph[nx][ny] === 'O') {
-                        que.push([nx, ny]);
-                        visited[nx][ny] = true;
-                        dist[nx][ny] = dist[x][y] +1;
+                if (0 <= nx && nx < 5 && 0 <= ny && ny < 5 && dist[nx][ny] === 0 && graph[nx][ny] !== "X") {
+                    if (d < 2) {
+                        dist[nx][ny] = 1;
+                        que.push([nx, ny, d+1]);
                     }
-
-                    if (graph[nx][ny] === 'P' && dist[nx][ny] <= 1) return 0;
                 }
             });
         }
 
-        return 1;
+        return true;
     };
 
-    for (const place of places) {
-        place.map((r, c) => {
-            place[c] = r.split('');
-        });
-        result.push(bfs(place));
+    const checkDist = (graph) => {
+        const dist = Array(5).fill().map(() => Array(5).fill(0));
+        
+        for (let i = 0; i < 5; i++) {
+            for (let j = 0; j < 5; j++) {
+                if (graph[i][j] === 'P') {
+                    dist[i][j] = 1;
+                    if (!bfs([i, j, 0], graph, dist)) return 0;
+                }
+            }
+        }
+        return 1;
     }
 
-    return result;
+    return places.map(checkDist);
 }
 
 

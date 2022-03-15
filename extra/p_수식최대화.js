@@ -1,4 +1,4 @@
-// 문제 확인해보기
+// https://programmers.co.kr/learn/courses/30/lessons/67257
 
 const operator = {
     '+': (a, b) => a + b,
@@ -18,6 +18,8 @@ function solution(expression) {
     ];
     const numArr = expression.split(/[^0-9]/).map(num => +num);
     const opArr = expression.match(/[\+\-\*]/g);
+    console.log(numArr);
+    console.log(opArr);
     
     for (const permu of permutation) {
         let copyNum = [...numArr];
@@ -48,3 +50,9 @@ function solution(expression) {
 // testCase
 console.log(solution("100-200*300-500+20"))     // 60420
 console.log(solution("50*6-3*2"))     // 300
+
+
+/** 정규표현식
+ * https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Regular_Expressions
+ * 
+ */
