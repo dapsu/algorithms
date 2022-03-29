@@ -13,7 +13,7 @@ function solution(n) {
         n -= 3;
     }
 
-    return result;
+    return result.flat();
 }
 
 
