@@ -1,4 +1,5 @@
 // https://programmers.co.kr/learn/courses/30/lessons/92342
+// 한 번 더 보기
 
 const solution = (n ,info) => {
     let result = Array(11).fill(0);
