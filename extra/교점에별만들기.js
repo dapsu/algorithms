@@ -1,5 +1,4 @@
 // https://programmers.co.kr/learn/courses/30/lessons/87377
-// 한 번 더 풀기
 
 const makeStars = (points) => {
     let maxX = Number.MIN_SAFE_INTEGER;
