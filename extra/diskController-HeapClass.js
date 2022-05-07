@@ -120,7 +120,6 @@ function solution(jobs) {
     return Math.floor(answer / length);
 }
 
-
 // testCase
 console.log(solution([[0, 3], [1, 9], [2, 6]]));    // 9
 console.log(solution([[0, 10], [2, 12], [9, 19], [15, 17]]));    // 25
