@@ -1,3 +1,5 @@
+// https://programmers.co.kr/learn/courses/30/lessons/77485
+
 // 행렬 생성 함수
 const createMatrix = (r, c) => {
     const matrix = new Array(r).fill().map(() => Array(c).fill());
@@ -22,13 +24,13 @@ const rotation = (arr, x1, y1, x2, y2, que) => {
 };
 
 function solution(rows, columns, queries) {
-    const result = new Array;
+    const result = [];
     let matrix = createMatrix(rows, columns);
 
     queries =  queries.map(elem => elem.map(e => e-1));
     
     queries.forEach(([x1, y1, x2, y2]) => {
-        const tmp = new Array;
+        const tmp = [];
         
         for (let i = 0; i < y2 - y1; i++) tmp.push(matrix[x1][y1+i]);
         for (let i = 0; i < x2 - x1; i++) tmp.push(matrix[x1+i][y2]);
