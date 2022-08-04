@@ -1,33 +1,29 @@
 // https://school.programmers.co.kr/learn/courses/30/lessons/67258
 
 function solution(gems) {
-  const gemList = [...new Set(gems)];   // 보석 리스트. 모든 종류의 보석 1개 이상 포함하기 위한 기준
-  if (gemList.length === 1) {
-    return [1, 1];
-  }
-  const isValid = (arr) => {
-    for (const gem of gemList) {
-      if (!arr.includes(gem)) {
-        return false;
-      }
+  const gemCount = new Set(gems).size;  // 보석 종류의 개수
+  const gemMap = new Map();   // 보석과 보석의 진열된 위치 매핑
+  let result = [];
+
+  gems.forEach((gem, index) => {
+    // 맵에 기존 보석이 있다면 삭제 후 위치 최신화 (구간 더 짧게 하기 위해)
+    if (gemMap.has(gem)) {
+      gemMap.delete(gem);
     }
-    return true;
-  };
-  let result = [1, 100000];
-  for (let i = 0; i < gems.length - gemList.length; i++) {
-    for (let j = gems.length; j >= gemList.length; j--) {
-      // 1. 해당 구간에서 적어도 1개 이상의 보석을 포함하는지 검사
-      const tmp = gems.slice(i, j);
-      if (!isValid(tmp)) {
-        continue;
-      }
-      // 2. 모든 보석을 포함하는 구간이라면, 구간의 길이 비교
-      if (result[1] - result[0] > j - (i + 1)) {
-        result = [i + 1, j];
-      }
+    gemMap.set(gem, index);
+    // 맵의 크기와 보석의 개수가 같다면 result 배열에 값 추가
+    if (gemMap.size === gemCount) {
+      result.push([gemMap.values().next().value + 1, index + 1]);   // next() 통해 이터레이터 값 반환
     }
-  }
-  return result;
+  });
+
+  result.sort((a, b) => {
+    if (a[1] - a[0] === b[1] - b[0]) {    // 구간이 같다면 먼저 진열된 값 앞으로 정렬
+      return a[1] - b[1];
+    }
+    return (a[1] - a[0]) - (b[1] - b[0]);   // 구간이 짧은 값을 가장 앞으로 정렬
+  })
+  return result[0];
 }
 
 
