@@ -7,16 +7,16 @@ function solution(user_id, banned_id) {
   // 일치하는 패턴 매칭 파악하는 함수
   const isMatch = (id, pattern) => {
     pattern = pattern.replace(/\*/g, ".");
-    const regex = RegExp("\^(" + pattern + "\)$");
+    const regex = RegExp("\^(" + pattern + "\)$");  // RegExp 객체 이용하여 패턴 판별
     return regex.test(id);
   };
 
   const dfs = (remain_users, banned_id, ban) => {
-    if (banned_id.length == 0) {
+    if (banned_id.length === 0) {
       arr.push(ban);
       return 1;
     } else {
-      for (var idx = 0; idx < remain_users.length; idx++) {
+      for (let idx = 0; idx < remain_users.length; idx++) {
         if (isMatch(remain_users[idx], banned_id[0])) {
           dfs(
             [...remain_users.slice(0, idx), ...remain_users.slice(idx + 1)],
