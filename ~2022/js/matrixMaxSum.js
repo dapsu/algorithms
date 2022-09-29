@@ -16,36 +16,53 @@ const arr = [
 function solution(arr) {
   let max = Number.MIN_SAFE_INTEGER;
   let len = arr.length;
+
+  // 행 합
   for (const row of arr) {
     let sum = row.reduce((a, b) => a + b, 0);
-    max = max > sum ? sum : max;
+    max = max > sum ? max : sum;
   }
-  for (let i = 0; i < len; i++) {
 
+  // 열 합
+  let sum = 0; 
+  for (let i = 0; i < len; i++) {
+    for (let j = 0; j < len; j++) {
+      sum = arr[j][i];
+    }
+    max = max > sum ? max : sum;
   }
+
+  // 대각선 합
+  let [sum1, sum2] = [0, 0];
+  for (let i = 0; i < len; i++) {
+    sum1 += arr[i][i];
+    sum2 += arr[i][len - i - 1];
+  }
+  max = Math.max(max, sum1, sum2);
+  return max;
 }
 
 // ref sol
-function solution(arr) {
-  let answer = Number.MIN_SAFE_INTEGER;
-  let n = arr.length;
-  let sum1 = sum2 = 0;
-  for (let i = 0; i < n; i++) {
-    sum1=sum2=0;
-    for (let j = 0; j < n; j++) {
-      sum1 += arr[i][j];
-      sum2 += arr[j][i];
-    }
-    answer = Math.max(answer, sum1, sum2);
-  }
-  sum1=sum2=0;
-  for (let i = 0; i < n; i++) {
-    sum1 += arr[i][i];
-    sum2 += arr[i][n-i-1];
-  }
-  answer = Math.max(answer, sum1, sum2);
-  return answer;
-}
+// function solution(arr) {
+//   let answer = Number.MIN_SAFE_INTEGER;
+//   let n = arr.length;
+//   let sum1 = sum2 = 0;
+//   for (let i = 0; i < n; i++) {
+//     sum1=sum2=0;
+//     for (let j = 0; j < n; j++) {
+//       sum1 += arr[i][j];
+//       sum2 += arr[j][i];
+//     }
+//     answer = Math.max(answer, sum1, sum2);
+//   }
+//   sum1=sum2=0;
+//   for (let i = 0; i < n; i++) {
+//     sum1 += arr[i][i];
+//     sum2 += arr[i][n-i-1];
+//   }
+//   answer = Math.max(answer, sum1, sum2);
+//   return answer;
+// }
 
 // testCase
 console.log(solution(arr));  // 155
