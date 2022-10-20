@@ -12,7 +12,6 @@ function solution(n, m, sequence) {
   for (let i = 0; i < n; i++) {
     arr.push(sequence[i]);
     let sum = arr.reduce((a, b) => a + b, 0);
-    console.log();
     if (sum === m) {
       answer++;
       arr.shift();
