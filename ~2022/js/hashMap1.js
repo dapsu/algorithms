@@ -5,9 +5,9 @@
  */
 
 // my sol
-function solution(n, arr) {
+function solution(n, s) {
   const obj = {};
-  for (const i of [...arr[0]]) {
+  for (const i of s) {
     if (!obj[i]) obj[i] = 1;
     else obj[i]++;
   }
@@ -18,9 +18,25 @@ function solution(n, arr) {
 }
 
 // ref sol
-// function solution() {
-
-// }
+function solution(n, s) {
+  let answer;
+  let hashMap = new Map();
+  let max = Number.MIN_SAFE_INTEGER;
+  for (const i of s) {
+    if (hashMap.has(i)) hashMap.set(i, hashMap.get(i) + 1);
+    else hashMap.set(i, 1);
+  }
+  for (let [key, val] of hashMap) {
+    console.log(key);
+    console.log(val);
+    console.log();
+    if (val > max) {
+      max = val;
+      answer = key;
+    }
+  }
+  return answer;
+}
 
 // testCase
-console.log(solution(15, ['BACBACCACCBDEDE']));  // C
+console.log(solution(15, 'BACBACCACCBDEDE'));  // C
