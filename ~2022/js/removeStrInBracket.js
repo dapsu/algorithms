@@ -24,9 +24,16 @@ function solution(str) {
 }
 
 // ref sol
-// function solution() {
-
-// }
+function solution(s) {
+  const stack = [];
+  for (const x of s) {
+    if (x === ')') {
+      while (stack.pop() !== '(');
+    }
+    else stack.push(x);
+  }
+  return stack.join('');
+}
 
 // testCase
 console.log(solution('(A(BC)D)EF(G(H)(IJ)K)LM(N)'));  // EFLM
